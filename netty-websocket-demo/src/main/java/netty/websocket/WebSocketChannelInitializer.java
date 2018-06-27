@@ -11,13 +11,13 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
 /**
  * 
- * @author ÕÔÔÆÌÎ
- * {@link }
+ * @author èµµäº‘æ¶›
+ * {@link https://github.com/IceFoxs/}
  *
  */
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 	/**
-	 * WebSocket¿Í»§¶Ë»º´æMap
+	 * WebSocketå®¢æˆ·ç«¯ç¼“å­˜Map
 	 */
 	private final Map<String, Channel> map;
 
@@ -27,16 +27,16 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
 
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-		// HttpServerCodec: Õë¶ÔhttpÐ­Òé½øÐÐ±à½âÂë
+		// HttpServerCodec: é’ˆå¯¹httpåè®®è¿›è¡Œç¼–è§£ç 
 		pipeline.addLast("httpServerCodec", new HttpServerCodec());
-		// ChunkedWriteHandler·Ö¿éÐ´´¦Àí£¬ÎÄ¼þ¹ý´ó»á½«ÄÚ´æ³Å±¬
+		// ChunkedWriteHandleråˆ†å—å†™å¤„ç†ï¼Œæ–‡ä»¶è¿‡å¤§ä¼šå°†å†…å­˜æ’‘çˆ†
 		pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
 		/**
-		 * ×÷ÓÃÊÇ½«Ò»¸öHttpµÄÏûÏ¢×é×°³ÉÒ»¸öÍê³ÉµÄHttpRequest»òÕßHttpResponse£¬ÄÇÃ´¾ßÌåµÄÊÇÊ²Ã´ È¡¾öÓÚÊÇÇëÇó»¹ÊÇÏìÓ¦,
-		 * ¸ÃHandler±ØÐë·ÅÔÚHttpServerCodecºóµÄºóÃæ
+		 * ä½œç”¨æ˜¯å°†ä¸€ä¸ªHttpçš„æ¶ˆæ¯ç»„è£…æˆä¸€ä¸ªå®Œæˆçš„HttpRequestæˆ–è€…HttpResponseï¼Œé‚£ä¹ˆå…·ä½“çš„æ˜¯ä»€ä¹ˆ å–å†³äºŽæ˜¯è¯·æ±‚è¿˜æ˜¯å“åº”,
+		 * è¯¥Handlerå¿…é¡»æ”¾åœ¨HttpServerCodecåŽçš„åŽé¢
 		 */
 		pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(8192));
-		// ÓÃÓÚ´¦Àíwebsocket, /wsÎª·ÃÎÊwebsocketÊ±µÄuri
+		// ç”¨äºŽå¤„ç†websocket, /wsä¸ºè®¿é—®websocketæ—¶çš„uri
 		// pipeline.addLast("webSocketServerProtocolHandler", new
 		// WebSocketServerProtocolHandler("/"));
 		pipeline.addLast("myWebSocketHandler", new WebSocketCommonHandler(map));
