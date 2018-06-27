@@ -21,8 +21,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 /**
  * 
- * @author ÕÔÔÆÌÎ
- * {@link}
+ * @author èµµäº‘æ¶›
+ * {@link https://github.com/IceFoxs/}
  *
  */
 
@@ -48,16 +48,16 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 				byte b = buf.getByte(i);
 				buffer.put(b);
 			}
-			System.out.println("·¢ËÍ·½:"+idnumber+",¶ş½øÖÆÊı¾İ½ÓÊÜÄÚÈİÎª£º"+new String(buffer.array(), "utf-8"));
-			String content = "ÏûÏ¢ÄÚÈİÔİ²»´¦Àí";
+			System.out.println("å‘é€æ–¹:"+idnumber+",äºŒè¿›åˆ¶æ•°æ®æ¥å—å†…å®¹ä¸ºï¼š"+new String(buffer.array(), "utf-8"));
+			String content = "æ¶ˆæ¯å†…å®¹æš‚ä¸å¤„ç†";
 			ByteBuf byteBuf = Unpooled.wrappedBuffer(content.getBytes("utf-8"));
 			ctx.channel().writeAndFlush(new BinaryWebSocketFrame(byteBuf));
 			showUsers();
 		}
 		if (msg instanceof TextWebSocketFrame) {
 			Channel channel = ctx.channel();
-			System.out.println("·¢ËÍ·½:"+idnumber+",ÎÄ±¾Êı¾İ½ÓÊÜÄÚÈİÎª: " + ((TextWebSocketFrame) msg).text());
-			channel.writeAndFlush(new TextWebSocketFrame("ÏûÏ¢ÄÚÈİÔİ²»´¦Àí"));
+			System.out.println("å‘é€æ–¹:"+idnumber+",æ–‡æœ¬æ•°æ®æ¥å—å†…å®¹ä¸º: " + ((TextWebSocketFrame) msg).text());
+			channel.writeAndFlush(new TextWebSocketFrame("æ¶ˆæ¯å†…å®¹æš‚ä¸å¤„ç†"));
 			showUsers();
 		}
 	}
@@ -69,8 +69,8 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 
 	@Override
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-		// System.out.println("ÓÃ»§ÏÂÏß: " + ctx.channel().id().asLongText());
-		System.out.println("ÓÃ»§ÏÂÏß: " + idnumber);
+		// System.out.println("ç”¨æˆ·ä¸‹çº¿: " + ctx.channel().id().asLongText());
+		System.out.println("ç”¨æˆ·ä¸‹çº¿: " + idnumber);
 		showUsers();
 	}
 
@@ -82,7 +82,7 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 	private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) {
 		Channel channel = ctx.channel();
 		for (Entry<String, String> header : req.headers()) {
-			System.out.println(header.getKey() + "£º" + header.getValue());
+			System.out.println(header.getKey() + "ï¼š" + header.getValue());
 		}
 		if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
 			sendHttpResponse(ctx, req,
@@ -97,7 +97,7 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 		}
 		String uriPath = req.uri().substring(11);
 		idnumber = uriPath;
-		System.out.println("µ±Ç°url:" + uriPath);
+		System.out.println("å½“å‰url:" + uriPath);
 		if (handshaker == null) {
 			WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
 			// WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
@@ -113,14 +113,14 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 	}
 
 	private void showUsers() {
-		System.out.println("µ±Ç°ÔÚÏßÈËÊı£º" + map.size());
+		System.out.println("å½“å‰åœ¨çº¿äººæ•°ï¼š" + map.size());
 		for (Entry<String, Channel> u : map.entrySet()) {
-			System.out.println("ÓÃ»§£º" + u.getKey() + ",×´Ì¬£º" + (u.getValue().isActive() ? "ÔÚÏß" : "ÀëÏß"));
+			System.out.println("ç”¨æˆ·ï¼š" + u.getKey() + ",çŠ¶æ€ï¼š" + (u.getValue().isActive() ? "åœ¨çº¿" : "ç¦»çº¿"));
 		}
 	}
 
 	private static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, DefaultFullHttpResponse res) {
-		// ·µ»ØÓ¦´ğ¸ø¿Í»§¶Ë
+		// è¿”å›åº”ç­”ç»™å®¢æˆ·ç«¯
 		if (res.status().code() != 200) {
 			String str = "hello";
 			ByteBuf buf = null;
@@ -132,7 +132,7 @@ public class WebSocketCommonHandler extends SimpleChannelInboundHandler<Object> 
 			res.content().writeBytes(buf);
 			buf.release();
 		}
-		// Èç¹ûÊÇ·ÇKeep-Alive£¬¹Ø±ÕÁ¬½Ó
+		// å¦‚æœæ˜¯éKeep-Aliveï¼Œå…³é—­è¿æ¥
 		ChannelFuture f = ctx.channel().writeAndFlush(res);
 		if (!isKeepAlive(req) || res.status().code() != 200) {
 			f.addListener(ChannelFutureListener.CLOSE);
