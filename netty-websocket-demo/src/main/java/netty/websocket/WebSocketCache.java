@@ -3,24 +3,24 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import io.netty.channel.Channel;
 /**
- * Í¨¹ıidCardNumber,»º´æÃ¿Ò»¸öwebsocket¿Í»§¶ËÁ¬½Ó
- * @author ÕÔÔÆÌÎ
- * {@link}
+ * é€šè¿‡idCardNumber,ç¼“å­˜æ¯ä¸€ä¸ªwebsocketå®¢æˆ·ç«¯è¿æ¥
+ * @author èµµäº‘æ¶›
+ * {@link https://github.com/IceFoxs/}
  */
 public class WebSocketCache {
     /**
-     * »º´æwebsocketµÄMap
+     * ç¼“å­˜websocketçš„Map
      */
 	private static Map<String, Channel> map = new ConcurrentHashMap<String, Channel>();
    
 	/**
-	 *Ë½ÓĞ»¯¹¹Ôìº¯Êı
+	 *ç§æœ‰åŒ–æ„é€ å‡½æ•°
 	 */
 	private WebSocketCache() {
 
 	}
     /**
-     * ·µ»Ø Map
+     * è¿”å› Map
      * @return Map<String, Channel>
      */
 	public static Map<String, Channel> getMap() {
