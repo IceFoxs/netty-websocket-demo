@@ -9,10 +9,10 @@ import io.netty.util.internal.StringUtil;
 
 /**
  * 
- * WebSocket·¢ËÍÏûÏ¢¹¤¾ßÀà
+ * WebSocketå‘é€æ¶ˆæ¯å·¥å…·ç±»
  * 
- * @author ÕÔÔÆÌÎ
- * {@link }
+ * @author èµµäº‘æ¶›
+ * {@link https://github.com/IceFoxs/ }
  *
  */
 public class WebSocketUtil {
@@ -22,12 +22,12 @@ public class WebSocketUtil {
 
 	/**
 	 * 
-	 * ÏòÖ¸¶¨websocket·¢ËÍ×Ö·û´®
+	 * å‘æŒ‡å®šwebsocketå‘é€å­—ç¬¦ä¸²
 	 * 
 	 * @param idNumber
-	 *            Éí·İÖ¤ºÅÂë
+	 *            èº«ä»½è¯å·ç 
 	 * @param message
-	 *            ÏûÏ¢ÄÚÈİ£¬ÀàĞÍÎªString
+	 *            æ¶ˆæ¯å†…å®¹ï¼Œç±»å‹ä¸ºString
 	 * 
 	 */
 	public static void send(String idNumber, String message) {
@@ -44,12 +44,12 @@ public class WebSocketUtil {
 	}
 	/**
 	 * 
-	 * ÏòÖ¸¶¨websocket·¢ËÍ¶ş½øÖÆÊı¾İ
+	 * å‘æŒ‡å®šwebsocketå‘é€äºŒè¿›åˆ¶æ•°æ®
 	 * 
 	 * @param idNumber
-	 *            Éí·İÖ¤ºÅÂë
+	 *            èº«ä»½è¯å·ç 
 	 * @param message
-	 *            ÏûÏ¢ÄÚÈİ£¬ÀàĞÍÎª byte[]
+	 *            æ¶ˆæ¯å†…å®¹ï¼Œç±»å‹ä¸º byte[]
 	 * 
 	 */
 	public static void send(String idNumber, byte[] message) {
