@@ -26,11 +26,11 @@ public class BloomFilterTest {
 		}
 		bitSetBloomFilter.add("张三");
 		boolean a = bitSetBloomFilter.contains("张三");
-		boolean b = bitSetBloomFilter.contains("张磊");
-		boolean c = bitSetBloomFilter.contains("杨玉冰");
-		System.out.println("存在赵云涛吗？"+(a==true?"存在":"不存在"));
-		System.out.println("存在杨玉冰吗？"+(c==true?"存在":"不存在"));
-		System.out.println("存在张磊吗？"+(b==true?"存在":"不存在"));
+		boolean b = bitSetBloomFilter.contains("李四");
+		boolean c = bitSetBloomFilter.contains("王五");
+		System.out.println("存在张三吗？"+(a==true?"存在":"不存在"));
+		System.out.println("存在李四吗？"+(c==true?"存在":"不存在"));
+		System.out.println("存在王五吗？"+(b==true?"存在":"不存在"));
 	}
 	public static void main(String[] args) {
 		IntMap  intmap = new IntMap();
