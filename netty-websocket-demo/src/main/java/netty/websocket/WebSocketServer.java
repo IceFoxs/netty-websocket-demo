@@ -11,8 +11,8 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 /**
  * 
- * @author ’‘‘∆ÃŒ
- * {@link  }
+ * @author √ï√î√î√Ü√å√é
+ * {@link https://github.com/IceFoxs/ }
  *
  */
 public class WebSocketServer {
