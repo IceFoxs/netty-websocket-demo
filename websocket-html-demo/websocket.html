@@ -1,0 +1,194 @@
+<html>
+
+	<head>
+		<title>WebSocket</title>
+		<meta charset="utf-8" />
+		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				font-size: 12px;
+			}
+			
+			input#chat {
+				width: 300px;
+			}
+			
+			#chat-window {
+				width: 300px;
+			}
+			
+			#console {
+				border: 1px solid #CCCCCC;
+				height: 200px;
+				overflow-y: scroll;
+				padding: 5px;
+				width: 100%;
+			}
+			
+			#console p {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="noscript">
+			<h2 style="color: #ff0000">
+WebSocket start failed cause of javascript which may be disabled.</h2></div>
+        <label style="color: red;">请选择发送类型</label>
+		<div id="app">
+			<label>文本<input type="radio" v-model="type" value="文本"/></label>
+			<label>二进制<input type="radio" v-model="type" value="二进制"/></label>
+			<div>
+				已选:&nbsp;&nbsp;&nbsp;<label id="sendtype">{{type}}</label>
+			</div>
+		</div>
+		<p>
+			<input type="text" placeholder="请输入内容" id="chat" />
+		</p>
+		<div id="chat-window">
+			<div id="console" />
+		</div>
+		</div>
+	</body>
+	<script src="js/encoding-indexes.js"></script>
+	<script src="js/encoding.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				type: ''
+			}
+		});
+
+		function byteToString(arr) {
+			if(typeof arr === 'string') {
+				return arr;
+			}
+			var str = '',
+				_arr = arr;
+			for(var i = 0; i < _arr.length; i++) {
+				var one = _arr[i].toString(2),
+					v = one.match(/^1+?(?=0)/);
+				if(v && one.length == 8) {
+					var bytesLength = v[0].length;
+					var store = _arr[i].toString(2).slice(7 - bytesLength);
+					for(var st = 1; st < bytesLength; st++) {
+						store += _arr[st + i].toString(2).slice(2);
+					}
+					str += String.fromCharCode(parseInt(store, 2));
+					i += bytesLength - 1;
+				} else {
+					str += String.fromCharCode(_arr[i]);
+				}
+			}
+			return str;
+		}
+		function guid() {
+			function S4() {
+				return(((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			}
+			return(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+		}
+
+		function uintToString(uintArray) {
+			var encodedString = String.fromCharCode.apply(null, uintArray),
+				decodedString = decodeURIComponent(escape(atob(encodedString)));
+			return decodedString;
+		}
+		var Chat = {};
+		Chat.socket = null;
+		Chat.connect = (function(host) {
+			if('WebSocket' in window) {
+				Chat.socket = new WebSocket(host);
+				Chat.socket.binaryType = 'arraybuffer'
+			} else if('MozWebSocket' in window) {
+				Chat.socket = new MozWebSocket(host);
+			} else {
+				Console.log('Error: WebSocket is not supported by this browser.');
+				return;
+			}
+			Chat.socket.onopen = function() {
+				Console.log('Info: WebSocket connection opened.');
+				document.getElementById('chat').onkeydown = function(event) {
+					if(event.keyCode == 13) {
+						Chat.sendMessage();
+					}
+				};
+			};
+			Chat.socket.onclose = function() {
+				document.getElementById('chat').onkeydown = null;
+				Console.log('Info: WebSocket closed.');
+			};
+			Chat.socket.onmessage = function(e) {
+				/*	reader = new FileReader();
+					reader.addEventListener("loadend", function() {
+						// reader.result 包含转化为类型数组的blob
+					});
+					reader.readAsArrayBuffer(message.data);
+				
+				Console.log(reader.result);*/
+				var str = "";
+				if(typeof e.data == "string") {
+					str = e.data;
+					Console.log(str);
+					console.log(e.data)
+				} else {
+					str = new TextDecoder("utf-8").decode(e.data);
+					Console.log(str);
+					console.log(str);
+				}
+
+			};
+		});
+		Chat.initialize = function() {
+			if(window.location.protocol == 'http:') {
+				Chat.connect('ws://' + "localhost/swebsocket/"+guid());
+			} else {
+				Chat.connect('wss://' + "localhost/websocket/guid()");
+			}
+		};
+		Chat.sendMessage = (function() {
+			var message = document.getElementById('chat').value;
+
+			if(message != '') {
+				//var int8Array = new Int8Array([0x43, 0x46]);
+				var type = $("#sendtype").html();
+				console.log(type);
+				if(type == "文本") {
+					Chat.socket.send(message);
+				}
+				if(type == "二进制") {
+					var int8Array = new TextEncoder().encode(message);
+					Chat.socket.send(int8Array);
+				}
+				//Chat.socket.send("helllo");
+				document.getElementById('chat').value = '';
+			}
+		});
+		var Console = {};
+		Console.log = (function(message) {
+			var console = document.getElementById('console');
+			var p = document.createElement('p');
+			p.style.wordWrap = 'break-word';
+			p.innerHTML = message;
+			console.appendChild(p);
+			while(console.childNodes.length > 25) {
+				console.removeChild(console.firstChild);
+			}
+			console.scrollTop = console.scrollHeight;
+		});
+		Chat.initialize();
+		document.addEventListener("DOMContentLoaded", function() {
+			// Remove elements with "noscript" class - <noscript> is not allowed in XHTML
+			var noscripts = document.getElementsByClassName("noscript");
+			for(var i = 0; i < noscripts.length; i++) {
+				noscripts[i].parentNode.removeChild(noscripts[i]);
+			}
+		}, false);
+	</script>
+
+</html>
