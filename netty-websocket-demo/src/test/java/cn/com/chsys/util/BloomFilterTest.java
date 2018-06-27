@@ -9,28 +9,28 @@ import cn.hutool.bloomfilter.bitMap.IntMap;
 public class BloomFilterTest {
 	public static void bitMapBloomFilter(String[] args) {
 		BitMapBloomFilter bitMapBloomFilter = new BitMapBloomFilter(100);
-		bitMapBloomFilter.add("ÕÔÔÆÌÎ");
-		Boolean b = bitMapBloomFilter.contains("ÕÔÔÆÌÎ");
+		bitMapBloomFilter.add("å¼ ä¸‰");
+		Boolean b = bitMapBloomFilter.contains("å¼ ä¸‰");
 		System.out.println(b);
         //System.out.println();
 	}
 	public static void bitSetBloomFilter(String[] args) {
 		BitSetBloomFilter bitSetBloomFilter =new BitSetBloomFilter(100000,100000,10000);
 		double db = bitSetBloomFilter.getFalsePositiveProbability();
-		System.out.println("µ±Ç°¹ıÂËÆ÷µÄ´íÎóÂÊ"+db);
+		System.out.println("å½“å‰è¿‡æ»¤å™¨çš„é”™è¯¯ç‡"+db);
 		try {
 			bitSetBloomFilter.init("1.txt","utf-8");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		bitSetBloomFilter.add("ÕÔÔÆÌÎ");
-		boolean a = bitSetBloomFilter.contains("ÕÔÔÆÌÎ");
-		boolean b = bitSetBloomFilter.contains("ÕÅÀÚ");
-		boolean c = bitSetBloomFilter.contains("ÑîÓñ±ù");
-		System.out.println("´æÔÚÕÔÔÆÌÎÂğ£¿"+(a==true?"´æÔÚ":"²»´æÔÚ"));
-		System.out.println("´æÔÚÑîÓñ±ùÂğ£¿"+(c==true?"´æÔÚ":"²»´æÔÚ"));
-		System.out.println("´æÔÚÕÅÀÚÂğ£¿"+(b==true?"´æÔÚ":"²»´æÔÚ"));
+		bitSetBloomFilter.add("å¼ ä¸‰");
+		boolean a = bitSetBloomFilter.contains("å¼ ä¸‰");
+		boolean b = bitSetBloomFilter.contains("å¼ ç£Š");
+		boolean c = bitSetBloomFilter.contains("æ¨ç‰å†°");
+		System.out.println("å­˜åœ¨èµµäº‘æ¶›å—ï¼Ÿ"+(a==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
+		System.out.println("å­˜åœ¨æ¨ç‰å†°å—ï¼Ÿ"+(c==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
+		System.out.println("å­˜åœ¨å¼ ç£Šå—ï¼Ÿ"+(b==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
 	}
 	public static void main(String[] args) {
 		IntMap  intmap = new IntMap();
@@ -38,10 +38,10 @@ public class BloomFilterTest {
 			intmap.add(i);
 		}
 		for(int i=0;i<100;i++) {
-			System.out.println(i+":"+(intmap.contains(i)==true?"´æÔÚ":"²»´æÔÚ"));
+			System.out.println(i+":"+(intmap.contains(i)==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
 		}
-		System.out.println(100+":"+(intmap.contains(100)==true?"´æÔÚ":"²»´æÔÚ"));
+		System.out.println(100+":"+(intmap.contains(100)==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
 	    intmap.remove(99);
-	    System.out.println(99+":"+(intmap.contains(99)==true?"´æÔÚ":"²»´æÔÚ"));
+	    System.out.println(99+":"+(intmap.contains(99)==true?"å­˜åœ¨":"ä¸å­˜åœ¨"));
 	}
 }
